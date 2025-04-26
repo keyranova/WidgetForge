@@ -22,13 +22,11 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-//                add(configurationName = "implementation", project(":core:model"))
-//                add(configurationName = "implementation", project(":core:ui"))
-//                add(configurationName = "implementation", project(":core:data"))
-//                add(configurationName = "implementation", project(":core:common"))
-//                add(configurationName = "implementation", project(":core:domain"))
-//                add(configurationName = "implementation", project(":core:resources"))
+                add(configurationName = "implementation", project(":core:ui"))
+                add(configurationName = "implementation", project(":core:data"))
+                add(configurationName = "implementation", project(":core:common"))
 
+                add(configurationName = "implementation", libs.findLibrary("androidx.navigation.compose").get())
                 add(configurationName = "implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())
             }
         }

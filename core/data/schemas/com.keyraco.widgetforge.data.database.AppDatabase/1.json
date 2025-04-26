@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "502b1dab48160c9d8630849d650dd430",
+    "entities": [
+      {
+        "tableName": "Widget",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `size` TEXT NOT NULL, `config` TEXT, `id` BLOB NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "size",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "config",
+            "columnName": "config",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "BLOB",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '502b1dab48160c9d8630849d650dd430')"
+    ]
+  }
+}

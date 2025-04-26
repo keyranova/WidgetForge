@@ -51,5 +51,9 @@ gradlePlugin {
             id = "widgetforge.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
+        register("androidGlance") {
+            id = "widgetforge.android.library.glance"
+            implementationClass = "AndroidGlanceConventionPlugin"
+        }
     }
 }

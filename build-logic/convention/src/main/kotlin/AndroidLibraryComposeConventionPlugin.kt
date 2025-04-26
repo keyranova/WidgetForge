@@ -22,6 +22,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
                 add(configurationName = "implementation", libs.findLibrary("androidx.activity.compose").get())
                 add(configurationName = "implementation", libs.findLibrary("androidx.lifecycle.viewmodelcompose").get())
                 add(configurationName = "implementation", libs.findLibrary("koin.androidxcompose").get())
+                add(configurationName = "implementation", libs.findLibrary("androidx.compose.materialicons").get())
             }
         }
     }

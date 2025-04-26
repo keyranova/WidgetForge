@@ -27,4 +27,9 @@ buildCache {
 
 rootProject.name = "WidgetForge"
 include(":app")
- 
+include(":core:data")
+include(":core:common")
+include(":feature:widgets")
+include(":feature:builder")
+include(":feature:home")
+include(":core:ui")

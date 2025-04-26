@@ -52,8 +52,16 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.common)
+    implementation(projects.core.data)
+    implementation(projects.core.ui)
+    implementation(projects.feature.home)
+    implementation(projects.feature.builder)
+    implementation(projects.feature.widgets)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.materialicons)
+    implementation(libs.androidx.graphics.shapes)
 }
