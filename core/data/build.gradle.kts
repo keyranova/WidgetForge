@@ -18,4 +18,5 @@ dependencies {
     implementation(libs.androidx.dataStore.preferences)
     implementation(libs.kotlinx.serialization)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.androidx.glance.appwidget)
 }

@@ -58,6 +58,7 @@ dependencies {
     implementation(projects.feature.home)
     implementation(projects.feature.builder)
     implementation(projects.feature.widgets)
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.lifecycle.process)

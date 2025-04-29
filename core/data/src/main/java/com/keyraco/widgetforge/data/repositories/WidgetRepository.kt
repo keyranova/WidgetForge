@@ -1,11 +1,15 @@
 package com.keyraco.widgetforge.data.repositories
 
+import androidx.glance.GlanceId
 import com.keyraco.widgetforge.data.database.AppDatabase
+import com.keyraco.widgetforge.data.database.entities.AssignedWidgetEntity
 import com.keyraco.widgetforge.data.model.Widget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -31,6 +35,23 @@ class WidgetRepository(
         }
     }
 
+    suspend fun getWidgetByGlanceId(id: GlanceId): Flow<Widget?> {
+        val dao = database.assignedWidgetDao()
+        val widgetDao = database.widgetDao()
+
+        val assignedWidgetFlow = dao.getWidgetId(id.toString())
+
+        val widgetId = assignedWidgetFlow.first()
+
+        if (widgetId != null) {
+            return widgetDao.queryFirst(widgetId).map {
+                Widget.fromDatabaseEntity(it)
+            }
+        }
+
+        return flowOf()
+    }
+
     fun update(widget: Widget) {
         val dao = database.widgetDao()
         scope.launch {
@@ -42,6 +63,16 @@ class WidgetRepository(
         val dao = database.widgetDao()
         scope.launch {
             dao.insert(widget.toDatabaseEntity())
+        }
+    }
+
+    fun createAssignedWidget(widgetId: UUID, glanceId: String) {
+        val dao = database.assignedWidgetDao()
+        scope.launch {
+            dao.insert(AssignedWidgetEntity(
+                widgetId = widgetId,
+                glanceId = glanceId
+            ))
         }
     }
 

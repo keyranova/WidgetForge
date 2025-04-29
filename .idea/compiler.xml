@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="Widget_Forge.app" target="21" />
+      <module name="WidgetForge.feature.widgetpicker" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>
