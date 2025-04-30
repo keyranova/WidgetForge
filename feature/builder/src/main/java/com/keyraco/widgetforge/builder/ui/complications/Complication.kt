@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.keyraco.widgetforge.common.model.WidgetComplicationType
 import com.keyraco.widgetforge.data.model.WidgetComplication
 
 @Composable
@@ -22,9 +23,16 @@ fun RowScope.Complication(
             .weight(1f)
             .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small),
     ) {
-        Text(
-            text = complication.type.toString(),
-            color = MaterialTheme.colorScheme.onSurface
-        )
+        when (complication.type) {
+            WidgetComplicationType.DATE -> {
+                DateComplication(complication, cellWidth)
+            }
+            else -> {
+                Text(
+                    text = complication.type.toString(),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
     }
 }

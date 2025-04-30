@@ -15,6 +15,7 @@ import com.keyraco.widgetforge.builder.BuilderScreen
 import com.keyraco.widgetforge.common.Screens
 import com.keyraco.widgetforge.home.HomeScreen
 import com.keyraco.widgetforge.ui.LocalNavController
+import com.keyraco.widgetforge.ui.ProvideCurrentTime
 import com.keyraco.widgetforge.ui.theme.WidgetForgeTheme
 import java.util.UUID
 
@@ -24,29 +25,32 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            val context = this
 
             CompositionLocalProvider(
                 LocalNavController provides navController
             ) {
-                WidgetForgeTheme {
-                    NavHost(
-                        modifier = Modifier.fillMaxSize(),
-                        navController = navController,
-                        startDestination = Screens.HOME.route
-                    ) {
-                        composable(Screens.HOME.route) {
-                            HomeScreen()
-                        }
-                        composable(
-                            Screens.BUILDER.route,
-                            arguments = listOf(navArgument("id") {
-                                nullable = false
-                            })
+                ProvideCurrentTime {
+                    WidgetForgeTheme {
+                        NavHost(
+                            modifier = Modifier.fillMaxSize(),
+                            navController = navController,
+                            startDestination = Screens.HOME.route
                         ) {
-                            val id = it.arguments?.getString("id")?.let {
-                                UUID.fromString(it)
-                            } ?: return@composable
-                            BuilderScreen(id)
+                            composable(Screens.HOME.route) {
+                                HomeScreen()
+                            }
+                            composable(
+                                Screens.BUILDER.route,
+                                arguments = listOf(navArgument("id") {
+                                    nullable = false
+                                })
+                            ) {
+                                val id = it.arguments?.getString("id")?.let {
+                                    UUID.fromString(it)
+                                } ?: return@composable
+                                BuilderScreen(context, id)
+                            }
                         }
                     }
                 }

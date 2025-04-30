@@ -5,3 +5,9 @@ plugins {
 android {
     namespace = "com.keyraco.widgetforge.builder"
 }
+
+dependencies {
+    implementation(projects.feature.widgets)
+
+    implementation(libs.androidx.glance.appwidget)
+}

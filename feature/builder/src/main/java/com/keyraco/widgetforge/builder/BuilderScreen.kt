@@ -1,5 +1,6 @@
 package com.keyraco.widgetforge.builder
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,23 +20,30 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.keyraco.widgetforge.builder.ui.SmallItemRow
 import com.keyraco.widgetforge.common.model.WidgetSize
 import com.keyraco.widgetforge.ui.LocalNavController
+import com.keyraco.widgetforge.widgets.SmallWidget
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BuilderScreen(
+    context: Context,
     id: UUID
 ) {
     val viewModel: BuilderScreenVM = viewModel()
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
+
 
     LaunchedEffect(Unit) {
         viewModel.getWidget(id)
@@ -94,6 +102,10 @@ fun BuilderScreen(
             Button(
                 onClick = {
                     viewModel.saveWidget()
+
+                    scope.launch {
+                        SmallWidget().updateAll(context)
+                    }
                 }
             ) {
                 Text("Save")

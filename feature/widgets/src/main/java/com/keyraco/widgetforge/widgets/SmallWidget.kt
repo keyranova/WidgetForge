@@ -25,14 +25,20 @@ import androidx.glance.background
 import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
+import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
+import androidx.glance.text.TextStyle
 import com.keyraco.widgetforge.common.model.SmallWidgetDimensions
+import com.keyraco.widgetforge.common.model.WidgetRowType
 import com.keyraco.widgetforge.data.model.Widget
 import com.keyraco.widgetforge.data.repositories.WidgetRepository
+import com.keyraco.widgetforge.widgets.complications.Complication
 import com.keyraco.widgetforge.widgets.widgetpicker.WidgetPickerActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.inject
@@ -84,24 +90,75 @@ class SmallWidget : GlanceAppWidget() {
         if (widget != null) {
             Column(
                 modifier = GlanceModifier
-                    .fillMaxSize()
-                    .background(Color.White)
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                
+                Column(
+                    modifier = GlanceModifier
+                        .background(Color.White)
+                ) {
+                    widget!!.config.rows?.forEach { row ->
+                        val complication0 = row.complications?.firstOrNull {
+                            it.position == 0
+                        }
+
+                        val complication1 = row.complications?.firstOrNull {
+                            it.position == 1
+                        }
+
+                        when (row.type) {
+                            WidgetRowType.FULL_TWO_WIDE -> {
+                                Complication(
+                                    modifier = GlanceModifier
+                                        .fillMaxWidth()
+                                        .defaultWeight(),
+                                    complication = complication0,
+                                    cellWidth = 2
+                                )
+                            }
+                            WidgetRowType.TWO_ONE_WIDE -> {
+                                Row(
+                                    modifier = GlanceModifier
+                                        .fillMaxWidth()
+                                        .defaultWeight()
+                                ) {
+                                    Complication(
+                                        modifier = GlanceModifier
+                                            .defaultWeight(),
+                                        complication = complication0
+                                    )
+                                    Complication(
+                                        modifier = GlanceModifier
+                                            .defaultWeight(),
+                                        complication = complication1
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
         } else {
             Column(
                 modifier = GlanceModifier
                     .fillMaxSize()
+                    .background(Color.White)
+                    .padding(12.dp)
                     .clickable(
                         onClick = actionStartActivity<WidgetPickerActivity>(
                             actionParametersOf(ActionParameters.Key<Int>("id") to id.toAppWidgetId())
                         )
                     ),
-                verticalAlignment = Alignment.Top,
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "Tap here to select a widget", modifier = GlanceModifier.padding(12.dp))
+                Text(
+                    text = "Tap here to select a widget",
+                    style = TextStyle(
+                        textAlign = TextAlign.Center
+                    )
+                )
             }
         }
     }
